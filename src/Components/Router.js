@@ -7,7 +7,14 @@ import Feed from '../Routes/Feed';
 const LoggedInRoutes = () => <><Route exact path="/" component={Feed} /></>
 const LoggedOutRoutes = () => <><Route exact path="/" component={Auth} /></>
 
-const AppRouter = ({isLoggedIn}) => <Router><Switch>{isLoggedIn? <LoggedInRoutes /> : <LoggedOutRoutes /> }</Switch></Router>
+const AppRouter = ({isLoggedIn}) => (
+    <Router>
+        <Switch>
+            {isLoggedIn? <LoggedInRoutes /> : <LoggedOutRoutes /> }
+        </Switch>
+    </Router>
+)
+
 export default AppRouter;
 
 Router.PropTypes = {
