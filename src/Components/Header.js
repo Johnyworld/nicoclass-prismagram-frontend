@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link, withRouter} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import useInput from '../Hooks/useInput';
 import { Compass, HeartEmpty, User, Logo } from './Icons';
 import { useQuery } from 'react-apollo-hooks';
-
 
 const Header = styled.header`
     width: 100%;
@@ -18,6 +17,7 @@ const Header = styled.header`
     justify-content: center;
     align-items: center;
     padding: 25px 0;
+    z-index: 2;
 `
 const HeaderWrapper = styled.div`
     width: 100%;

@@ -9,13 +9,15 @@ import Search from '../Routes/Search';
 import Notification from '../Routes/Notification';
 
 const LoggedInRoutes = () => ( 
-    <Switch>
-        <Route exact path="/" component={Feed} />
-        <Route path="/explore" component={Explore} />
-        <Route path="/search" component={Search} />
-        <Route path="/notification" component={Notification} />
-        <Route path="/:username" component={Profile} />
-    </Switch>
+    <> 
+        <Switch>
+            <Route exact path="/" component={Feed} />
+            <Route path="/explore" component={Explore} />
+            <Route path="/search" component={Search} />
+            <Route path="/notification" component={Notification} />
+            <Route path="/:username" component={Profile} />
+        </Switch>
+    </>
 )
 
 const LoggedOutRoutes = () => (

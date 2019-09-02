@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import Input from '../../Components/input';
 import Button from '../../Components/Button';
@@ -30,7 +31,7 @@ const Link = styled.span`
 
 const Form = styled(Box)`
     padding: 40px;
-    padding-bototm: 30px;
+    padding-bottom: 30px;
     margin-bottom: 15px;
     form {
         width: 100%;
@@ -51,12 +52,17 @@ export default ({setAction, action, username, firstName, lastName, secret, email
         <Wrapper>
             <Form>
                 { action === "logIn" && (
+                    <>
+                    <Helmet><title>Log In | Prismagram</title></Helmet>
                     <form onSubmit={onSubmit}>
                         <Input placeholder={"Email"} {...email} type="email" />
                         <Button text={"Log In"} />
                     </form>
+                    </>
                 )}
                 { action === 'signUp' && (
+                    <>
+                    <Helmet><title>Sign Up | Prismagram</title></Helmet>
                     <form onSubmit={onSubmit}>
                         <Input placeholder={"First name"} {...firstName} />
                         <Input placeholder={"Last name"} {...lastName} />
@@ -64,12 +70,16 @@ export default ({setAction, action, username, firstName, lastName, secret, email
                         <Input placeholder={"Username"} {...username} />
                         <Button text={"Sign Up"} />
                     </form>
+                    </>
                 )}
                 { action === 'confirm' && (
+                    <>
+                    <Helmet><title>Confirm Secret | Prismagram</title></Helmet>
                     <form onSubmit={onSubmit}>
                         <Input placeholder="Paste your secret" required {...secret} />
                         <Button text="Confirm" />
                     </form>
+                    </>
                 )}
             </Form>
             { action !== 'confirm' && ( 
