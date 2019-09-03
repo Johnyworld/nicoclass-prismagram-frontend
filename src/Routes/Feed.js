@@ -50,7 +50,6 @@ export default () => {
             <Helmet><title>Feed | Prismagram</title></Helmet>
             { loading && <Loader /> }
             { !loading &&
-                data &&
                 data.seeFeed &&
                 data.seeFeed.map(post => (
                 <Post 
@@ -62,7 +61,7 @@ export default () => {
                     files={post.files} 
                     likeCount={post.likeCount}
                     isLiked={post.isLiked}
-                    commnets={post.comments}
+                    comments={post.comments}
                     createdAt={post.createdAt}
                 />
             ))}

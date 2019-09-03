@@ -19,13 +19,15 @@ const PostContainer = ({
         const [ likeCountState, setLikeCount ] = useState(likeCount);
         const [ currentItem, setCurrentItem ] = useState(0);
         const comment = useInput("");
-        console.log(comment)
+
         const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, { 
             variables: { postId: id }
         });
+
         const [addCommentMutation] = useMutation(ADD_COMMENT, { 
             variables: { postId: id, text: comment.value }
         });
+        
         const toggleLike = () => {
             toggleLikeMutation();
             if ( isLikedState === true ) {
@@ -36,6 +38,7 @@ const PostContainer = ({
                 setLikeCount(likeCountState+1);
             }
         }
+
         useEffect(() => {
             const slide = () => {
                 const totalFiles = files.length;
@@ -48,6 +51,15 @@ const PostContainer = ({
             slide();
         }, [currentItem, files]);
          
+        const onKeyUp = e => {
+            const { keyCode } = e;
+            if ( keyCode === 13 ) {
+                e.preventDefault();
+                comment.setValue("");
+                // addCommentMutation();
+            }
+        }
+
         return <PostPresenter
             user={user}
             location={location}
@@ -55,13 +67,14 @@ const PostContainer = ({
             files={files} 
             likeCount={likeCountState}
             isLiked={isLikedState}
-            commnets={comments}
+            comments={comments}
             createdAt={createdAt}
             newComment={comment}
             setIsLiked={setIsLiked}
             setLikeCount={setLikeCount}
             currentItem={currentItem}
             toggleLike={toggleLike} 
+            onKeyUp={onKeyUp}
         />
     }
     
