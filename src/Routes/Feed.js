@@ -36,7 +36,6 @@ const FEED_QUERY = gql`
     }
 `
 
-
 const Wrapper = styled.div`
     display: flex;
     align-items: center;

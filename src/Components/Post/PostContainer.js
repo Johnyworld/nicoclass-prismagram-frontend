@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useInput from '../../Hooks/useInput';
 import PostPresenter from './PostPresenter';
+import { TOGGLE_LIKE, ADD_COMMENT } from './PostQueries';
+import { useMutation } from 'react-apollo-hooks';
 
 const PostContainer = ({ 
     id, 
@@ -16,8 +18,24 @@ const PostContainer = ({
         const [ isLikedState, setIsLiked ] = useState(isLiked);
         const [ likeCountState, setLikeCount ] = useState(likeCount);
         const [ currentItem, setCurrentItem ] = useState(0);
-        const comment = useInput(""); 
-        
+        const comment = useInput("");
+        console.log(comment)
+        const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, { 
+            variables: { postId: id }
+        });
+        const [addCommentMutation] = useMutation(ADD_COMMENT, { 
+            variables: { postId: id, text: comment.value }
+        });
+        const toggleLike = () => {
+            toggleLikeMutation();
+            if ( isLikedState === true ) {
+                setIsLiked(false);
+                setLikeCount(likeCountState-1);
+            } else {
+                setIsLiked(true);
+                setLikeCount(likeCountState+1);
+            }
+        }
         useEffect(() => {
             const slide = () => {
                 const totalFiles = files.length;
@@ -31,20 +49,22 @@ const PostContainer = ({
         }, [currentItem, files]);
          
         return <PostPresenter
-        user={user}
-        location={location}
-        caption={caption}
-        files={files} 
-        likeCount={likeCountState}
-        isLiked={isLikedState}
-        commnets={comments}
-        createdAt={createdAt}
-        newComment={comment}
-        setIsLiked={setIsLiked}
-        setLikeCount={setLikeCount}
-        currentItem={currentItem}
-    />;
-}
+            user={user}
+            location={location}
+            caption={caption}
+            files={files} 
+            likeCount={likeCountState}
+            isLiked={isLikedState}
+            commnets={comments}
+            createdAt={createdAt}
+            newComment={comment}
+            setIsLiked={setIsLiked}
+            setLikeCount={setLikeCount}
+            currentItem={currentItem}
+            toggleLike={toggleLike} 
+        />
+    }
+    
 
 PostContainer.propTypes = {
     id: PropTypes.string.isRequired,
