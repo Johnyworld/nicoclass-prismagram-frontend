@@ -4,18 +4,22 @@ import PropTypes from 'prop-types';
 import FatText from '../../Components/Post/FatText';
 import Loader from '../../Components/Loader';
 import UserCard from '../../Components/UserCard';
+import SquarePost from '../../Components/SquarePost'
 
 const Wrapper = styled.div`
-    height: 50vh;
+    min-height: 50vh;
 `;
 
 const Section = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 25px;
-    grid-auto-rows: 160px;
     margin-bottom: 50px;
 `;
+
+const PostSection = styled(Section)`
+
+`
 
 const SearchPresenter = ({ searchTerm, data, loading }) => {
     if (searchTerm === undefined) {
@@ -47,12 +51,19 @@ const SearchPresenter = ({ searchTerm, data, loading }) => {
                     ))
                 }
             </Section>
-            <Section>
+            <PostSection>
                 { data.searchPost.length === 0 
                     ? <FatText text={"No posts found"} /> 
-                    : data.searchPost.map( post => null )
+                    : data.searchPost.map( post => (
+                        <SquarePost 
+                            key={post.id}
+                            likeCount={post.likeCount} 
+                            commentCount={post.commentCount}    
+                            file={post.files[0]}
+                        />
+                    ))
                 }
-            </Section>
+            </PostSection>
         </Wrapper>
     }
     
