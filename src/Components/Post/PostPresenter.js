@@ -92,10 +92,7 @@ const Comment = styled.li`
         margin-right: 5px;
     }
 `
-
-
-
-
+        
 export default ({ 
     user:{username, avatar}, 
     location,
@@ -107,7 +104,8 @@ export default ({
     currentItem,
     toggleLike,
     comments,
-    onKeyUp
+    onKeyPress,
+    selfComments
 }) => (
     <Post>
         <Header>
@@ -138,6 +136,12 @@ export default ({
                             { comment.text }
                         </Comment>  
                     ))}
+                    { selfComments.map(comment=> (
+                        <Comment key={comment.id}>
+                            <FatText text={ comment.user.username } />
+                            { comment.text }
+                        </Comment>  
+                    ))}
                 </Comments> 
             )}
             <TimeStamp>
@@ -148,7 +152,7 @@ export default ({
                     placeholder={"Add a comment..."} 
                     value={newComment.value}
                     onChange={newComment.onChange}
-                    onKeyUp={onKeyUp} 
+                    onKeyPress={onKeyPress} 
                 />
             </form>
         </Meta>
