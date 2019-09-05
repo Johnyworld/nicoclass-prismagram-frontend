@@ -1,7 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import styled from 'styled-components';
-import {gql} from 'apollo-boost';
+import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import Loader from '../Components/Loader';
 import Post from '../Components/Post';
@@ -11,7 +11,7 @@ const FEED_QUERY = gql`
         seeFeed {
             id
             location
-            caption 
+            caption
             user {
                 id
                 avatar
@@ -34,14 +34,14 @@ const FEED_QUERY = gql`
             createdAt
         }
     }
-`
+`;
 
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
     min-height: 50vh;
-`
+`;
 
 export default () => {
     const { data, loading } = useQuery(FEED_QUERY);
@@ -49,22 +49,23 @@ export default () => {
         <Wrapper>
             <Helmet><title>Feed | Prismagram</title></Helmet>
             { loading && <Loader /> }
-            { !loading &&
+            { !loading && data &&
                 data.seeFeed &&
                 data.seeFeed.map(post => (
-                <Post 
-                    key={post.id} 
-                    id={post.id} 
-                    user={post.user}
-                    location={post.location}
-                    caption={post.caption}
-                    files={post.files} 
-                    likeCount={post.likeCount}
-                    isLiked={post.isLiked}
-                    comments={post.comments}
-                    createdAt={post.createdAt}
-                />
-            ))}
+                    <Post 
+                        key={post.id} 
+                        id={post.id} 
+                        user={post.user}
+                        location={post.location}
+                        caption={post.caption}
+                        files={post.files} 
+                        likeCount={post.likeCount}
+                        isLiked={post.isLiked}
+                        comments={post.comments}
+                        createdAt={post.createdAt}
+                    />
+                ))
+            }
         </Wrapper>
     )
 }
