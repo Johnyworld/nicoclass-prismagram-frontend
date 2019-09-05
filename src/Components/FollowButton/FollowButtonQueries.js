@@ -7,7 +7,7 @@ export const FOLLOW = gql`
 `
 
 export const UNFOLLOW = gql`
-    mutation unfollow( $id: String! ) {
-        unfollow( id: $id )
+    mutation unFollow( $id: String! ) {
+        unFollow( id: $id )
     }
 `
