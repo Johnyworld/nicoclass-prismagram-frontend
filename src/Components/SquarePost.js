@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { HeartFull, CommentFull } from './Icons';
@@ -44,18 +45,20 @@ const NumberText = styled.span`
     font-size: 16px;
 `;
 
-const SquarePost = ({ likeCount, commentCount, file }) => {
+const SquarePost = ({ likeCount, commentCount, file, idOfPost }) => {
     return (
-        <Container bg={file.url}> {/* bg는 styled-component에 props 로 전달함. */}
-            <Overlay>
-                <Number>
-                    <HeartFull /><NumberText>{likeCount}</NumberText>
-                </Number>
-                <Number>
-                    <CommentFull /><NumberText>{commentCount}</NumberText>
-                </Number>
-            </Overlay>
-        </Container>
+        <Link to={`/p/${idOfPost}`}>
+            <Container bg={file.url}> {/* bg는 styled-component에 props 로 전달함. */}
+                <Overlay>
+                    <Number>
+                        <HeartFull /><NumberText>{likeCount}</NumberText>
+                    </Number>
+                    <Number>
+                        <CommentFull /><NumberText>{commentCount}</NumberText>
+                    </Number>
+                </Overlay>
+            </Container>
+        </Link>
     )    
 }
 
