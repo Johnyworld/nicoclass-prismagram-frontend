@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import useInput from '../../Hooks/useInput';
 import PostPresenter from './PostPresenter';
@@ -7,6 +7,7 @@ import { useMutation } from 'react-apollo-hooks';
 import { toast } from 'react-toastify';
 
 const PostContainer = ({ 
+    isDetail=false,
     id, 
     user, 
     location,
@@ -18,7 +19,6 @@ const PostContainer = ({
     createdAt }) => {
         const [ isLikedState, setIsLiked ] = useState(isLiked);
         const [ likeCountState, setLikeCount ] = useState(likeCount);
-        const [ currentItem, setCurrentItem ] = useState(0);
         const [ selfComments, setSelfComments ] = useState([]);
         const comment = useInput("");
 
@@ -41,18 +41,6 @@ const PostContainer = ({
             }
         }
 
-        useEffect(() => {
-            const slide = () => {
-                const totalFiles = files.length;
-                if (currentItem === totalFiles -1) {
-                    setTimeout(()=>setCurrentItem(0), 3000);
-                } else {
-                    setTimeout(()=>setCurrentItem(currentItem+1), 3000);
-                }
-            } 
-            slide();
-        }, [currentItem, files]);
-         
         const onKeyPress = async(event) => {
             const { which } = event;
             if ( which === 13 ) {
@@ -68,6 +56,7 @@ const PostContainer = ({
         }
 
         return <PostPresenter
+            isDetail={isDetail}
             user={user}
             location={location}
             caption={caption}
@@ -79,7 +68,6 @@ const PostContainer = ({
             newComment={comment}
             setIsLiked={setIsLiked}
             setLikeCount={setLikeCount}
-            currentItem={currentItem}
             toggleLike={toggleLike} 
             onKeyPress={onKeyPress}
             selfComments={selfComments}

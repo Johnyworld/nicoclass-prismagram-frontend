@@ -12,6 +12,11 @@ const Wrapper = styled.div`
     min-height: 100vh;
 `;
 
+const LoaderWrapper = styled(Wrapper)`
+    display: flex;
+    justify-content: center;
+`;
+
 const Header = styled.header`
     display: flex;
     margin: 0 auto;
@@ -72,9 +77,9 @@ const Posts = styled.div`
 export default ({ loading, data, logOut }) => {
     if ( loading ) {
         return (
-            <Wrapper>
+            <LoaderWrapper>
                 <Loader />
-            </Wrapper>
+            </LoaderWrapper>
         )
     } else if ( !loading && data && data.seeUser ) {
         const { seeUser : {

@@ -5,17 +5,12 @@ export const POST_DETAIL = gql`
         seeFullPost( id: $id ) {
             id
             location
-            files {
-                id
-            }
-            user {
-                avatar
-                username
-            }
             caption
             likeCount
             comments {
+                id
                 user {
+                    id
                     avatar
                     username
                 }
@@ -24,6 +19,15 @@ export const POST_DETAIL = gql`
             commentCount
             isLiked
             createdAt
+            files {
+                id
+                url
+            }
+            user {
+                id
+                avatar
+                username
+            }
         }
     }
 `;

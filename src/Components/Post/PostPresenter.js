@@ -5,6 +5,7 @@ import TextareaAutosize from 'react-autosize-textarea'
 import FatText from './FatText';
 import Avatar from '../Avatar';
 import { HeartFull, HeartEmpty, Comment as CommentIcon } from '../Icons';
+import SquarePhoto from '../SquarePhoto';
 
 const Post = styled.div`
     ${props=> props.theme.whiteBox};
@@ -16,6 +17,18 @@ const Post = styled.div`
         color: inherit;
     }
 `
+
+const SectionLeft = styled.section`
+    flex: 1 1 335px;
+`;
+
+const SectionRight = styled.section`
+    ${props=> props.theme.whiteBox};
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 335px;
+    justify-content: space-between;
+`;
 
 const Header = styled.header`
     padding: 15px;
@@ -31,23 +44,6 @@ const Location = styled.span`
     display: block;
     margin-top: 5px;
     font-size: 12px;
-`
-
-const Files = styled.div`
-    position: relative;
-    padding-bottom: 100%;
-`
-
-const File = styled.img`
-    max-width: 100%;
-    height: 600px;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    display: block;
-    object-fit: cover;
-    opacity: ${props=> (props.showing? 1:0)};
-    transition: opacity .5s linear;
 `
 
 const Button = styled.span`
@@ -98,6 +94,7 @@ const Comment = styled.li`
 `
         
 export default ({ 
+    isDetail,
     user:{username, avatar}, 
     location,
     files, 
@@ -105,62 +102,102 @@ export default ({
     likeCount, 
     createdAt, 
     newComment, 
-    currentItem,
     toggleLike,
     comments,
     onKeyPress,
     selfComments
-}) => (
-    <Post>
-        <Header>
-            <Avatar size="sm" url={avatar} />
-            <UserColumn>
-                <Link to={`/${username}`}>
-                    <FatText text={username} />
-                </Link>
-                <Location>{location}</Location> 
-            </UserColumn>
-        </Header>
-        <Files>
-            { files && files.map((file, index) => <File id={file.id} src={file.url} key={file.id} showing={index===currentItem}  /> ) }
-        </Files>
-        <Meta>
-            <Buttons>
-                <Button onClick={toggleLike}>
-                    { isLiked ? <HeartFull /> : <HeartEmpty /> }
-                </Button>
-                <Button>
-                    <CommentIcon />
-                </Button>
-            </Buttons> 
-            <FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
-            { comments && ( 
-                <Comments>
-                    { comments.map(comment=> (
-                        <Comment key={comment.id}>
-                            <FatText text={ comment.user.username } />
-                            { comment.text }
-                        </Comment>  
-                    ))}
-                    { selfComments.map(comment=> (
-                        <Comment key={comment.id}>
-                            <FatText text={ comment.user.username } />
-                            { comment.text }
-                        </Comment>  
-                    ))}
-                </Comments> 
-            )}
-            <TimeStamp>
-                {createdAt}
-            </TimeStamp>
-            <form>
-                <Textarea 
-                    placeholder={"Add a comment..."} 
-                    value={newComment.value}
-                    onChange={newComment.onChange}
-                    onKeyPress={onKeyPress} 
+}) => {
+    console.log(isDetail)
+    if ( !isDetail ) {
+        return (
+            <Post>
+                <HeaderContainer avatar={avatar} username={username} location={location} />
+                <SquarePhoto files={files} />
+                <MetaContainer 
+                    selfComments={selfComments} 
+                    createdAt={createdAt} 
+                    newComment={newComment} 
+                    onKeyPress={onKeyPress}
+                    isLiked={isLiked}
+                    likeCount={likeCount}
+                    comments={comments}
+                    toggleLike={toggleLike}
                 />
-            </form>
-        </Meta>
-    </Post>
+            </Post>
+        )
+    } else {
+        return (
+            <>
+            <SectionLeft>
+                <SquarePhoto files={files} />
+            </SectionLeft>
+            <SectionRight>
+                <HeaderContainer avatar={avatar} username={username} location={location} />
+                <MetaContainer 
+                    selfComments={selfComments} 
+                    createdAt={createdAt} 
+                    newComment={newComment} 
+                    onKeyPress={onKeyPress}
+                    isLiked={isLiked}
+                    likeCount={likeCount}
+                    comments={comments}
+                    toggleLike={toggleLike}
+                />
+            </SectionRight>
+            </>
+        )
+    }
+} 
+
+const HeaderContainer = ({ avatar, username, location }) => (
+    <Header>
+        <Avatar size="sm" url={avatar} />
+        <UserColumn>
+            <Link to={`/${username}`}>
+                <FatText text={username} />
+            </Link>
+            <Location>{location}</Location> 
+        </UserColumn>
+    </Header>
+)
+
+const MetaContainer = ({ selfComments, createdAt, newComment, onKeyPress, isLiked, likeCount, comments, toggleLike }) => (
+    <Meta>
+        <Buttons>
+            <Button onClick={toggleLike}>
+                { isLiked ? <HeartFull /> : <HeartEmpty /> }
+            </Button>
+            <Button>
+                <CommentIcon />
+            </Button>
+        </Buttons> 
+        <FatText text={likeCount === 1 ? '1 like' : `${likeCount} likes`} />
+        { comments && ( 
+            <Comments>
+                { comments.map(comment=> (
+                    <Comment key={comment.id}>
+                        <FatText text={ comment.user.username } />
+                        { comment.text }
+                    </Comment>  
+                ))}
+                { selfComments.map(comment=> (
+                    <Comment key={comment.id}>
+                        <FatText text={ comment.user.username } />
+                        { comment.text }
+                    </Comment>  
+                ))}
+            </Comments> 
+        )}
+        <TimeStamp>
+            {createdAt}
+        </TimeStamp>
+        <form>
+            <Textarea 
+                placeholder={"Add a comment..."} 
+                value={newComment.value}
+                onChange={newComment.onChange}
+                onKeyPress={onKeyPress} 
+            />
+        </form>
+    </Meta>
 )
